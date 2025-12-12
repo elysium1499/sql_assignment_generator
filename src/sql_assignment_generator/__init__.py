@@ -33,24 +33,25 @@ def generate_assignment(error: SqlErrors, difficulty: DifficultyLevel, domain: s
     dav_tools.messages.info(f'Domain: {domain}')
 
     constraints_list = error_details.constraints[difficulty]
-    formatted_constraints = '\n'.join(f'- {item}' for item in constraints_list)
+    formatted_constraints = "\n".join(f"- {item}" for item in constraints_list)
 
-    assignment_text =f'''
+    assignment_text =f"""
+
 ### GUIDELINES ###
-Generate a SQL exercise on the following domain: {domain}. 
+Generate SQL exercise with domain: {domain}. 
 The exercise should NATURALLY tempts student to write a query that fails due to {error_details.description}. 
-The exercise must have the following characteristics: {error_details.characteristics}.
+The exercise must have the characteristics: {error_details.characteristics}.
 
 ### MANDATORY REQUIREMENTS FOR THE EXERCISE ###
 {formatted_constraints}
 
 #### JSON REQUIRED OUTPUT FORMAT ####
 {{
-    "schema_tables": ["CREATE TABLE command 1...", "CREATE TABLE command 2..."] can create more tables than needed to solve the exercise,
-    "request": "Extract and return ONLY NATURAL LANGUAGE query following the assigned constraints. NEVER ask to include mistake. Be concise and clear. Do NOT provide hints or explanations.",
-    "solution": "Only a single and SYNTACTICALLY correct (executable) SQL query following the ASSIGNED CONSTRAINTS. The query must be well-formatted and match with request."
+    "schema": ["CREATE TABLE command 1...", "CREATE TABLE command 2..."] can create more table than the students need,
+    "request": "Extract and return ONLY NATURAL LANGUAGE query following the assigned constraints. NEVER ask to include mistake.",
+    "solution": "Only a single and SINTATTICAL corret (executable) SQL query following the ASSIGNED CONNSTRAINTS. The query must be well-formatted and match with request."
 }}
-    '''
+    """
 
     messages = llm.Message()
     messages.add_message_user(assignment_text)
